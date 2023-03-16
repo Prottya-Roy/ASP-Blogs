@@ -27,14 +27,14 @@ namespace WebApplication1.Controllers
             return null;
         }
 
-        [HttpGet("GetUser")]
+        [HttpGet("GetUser/{Id}")]
         public async Task<User> GetUser(string Id)
         {
             return await _userService.GetUser(Id);
         }
 
-        [HttpPatch("UpdateUser")]
-        public Task<User> UpdateUser(string Id)
+        [HttpPatch("UpdateUser/{Id}")]
+        public Task<User> UpdateUser(User user, string Id)
         {
             return null;
         }

@@ -27,26 +27,26 @@ namespace WebApplication1.Controllers
            return await _blogService.GetBlogs();
         }
 
-        [HttpGet("GetBlogByAuthor")]
+        [HttpGet("GetBlogByAuthor/{author}")]
         public async Task<List<Blog>> GetBlogByAuthor(string author)
         {
             return await _blogService.GetBlogByAuthor(author);
         }
 
-        [HttpGet("GetBlogById")]
+        [HttpGet("GetBlogById/{Id}")]
         public async Task<Blog> GetBlogById(string Id)
         {
             Blog blog= await _blogService.GetBlogById(Id);
             return blog;
         }
 
-        [HttpDelete("DeleteBlog")]
+        [HttpDelete("DeleteBlog/{Id}")]
         public  DeleteResult DeleteBlog(string Id)
         {
             return  _blogService.DeleteBlog(Id);
         }
 
-        [HttpPatch("UpdateBlog")]
+        [HttpPatch("UpdateBlog/{Id}")]
         public async Task<Blog> UpdateBlog(string Id, Blog newBlog)
         {
             return await _blogService.UpdateBlog(Id, newBlog);
