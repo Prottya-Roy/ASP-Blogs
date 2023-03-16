@@ -1,10 +1,11 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using WebApplication1.Models;
 
 namespace WebApplication1.Services
 {
-    public class BlogService : IBlogService
+    public class BlogService 
     {
 
         private readonly IMongoCollection<Blog> _blogs;
@@ -14,35 +15,41 @@ namespace WebApplication1.Services
             var mongoDatabase = mongoClient.GetDatabase(blogDatabaseSettings.Value.DatabaseName);
             _blogs = mongoDatabase.GetCollection<Blog>(blogDatabaseSettings.Value.BlogsCollectionName);
         }
-        public void AddBlog(Blog blog)
+        public async Task<Blog> AddBlog(Blog blog)
         {
-             _blogs.InsertOne(blog);
-        }
-
-        public void DeleteBlog(string Id)
-        {
-            _blogs.DeleteOne(blog=>blog.Id == Id);
-        }
-
-        public Blog GetBlog(string Id)
-        {
-             Blog blog = _blogs.Find(blog=>blog.Id==Id).First();
+            await _blogs.InsertOneAsync(blog);
             return blog;
         }
 
-        public Blog GetBlogByAuthor(string author)
+        public  DeleteResult DeleteBlog(string Id)
+        {
+           var response=  _blogs.DeleteOne(blog=>blog._id == Id);
+            return response;
+        }
+
+        public async Task<List<Blog>> GetBlogByAuthor(string author)
+        {
+            return await _blogs.Find(blog => (blog.author == author)).ToListAsync();
+        }
+
+        public async Task<List<Blog>> GetBlogs()
+        {
+           return await _blogs.Find(_=> true).ToListAsync();
+        }
+
+        public Task UpdateBlog(Blog blog)
         {
             throw new NotImplementedException();
         }
-
-        public List<Blog> GetBlogs()
+        public async Task<Blog> GetBlogById(string Id)
         {
-            throw new NotImplementedException();
+            Blog blog=  await _blogs.Find(blog => blog._id == Id).FirstAsync();
+            return blog;
         }
 
-        public Blog UpdateBlog(Blog blog)
+        public async Task<Blog> UpdateBlog(string Id, Blog newBlog)
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
 }

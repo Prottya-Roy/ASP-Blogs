@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "V2/Y3KgCK1bVr0fOGOxncvUyCiY7FzDtQbITKW40zFXi+Xg84h1TDnWIvDW7fCCG3Bl28WDb/TtUDevw2Zfzfg==",
+  "dgSpecHash": "q6pbbvVmZV9MuhoR1GM+c0q7H8HruQc3DnX+Z1tU3KAsWM40tA3JpLSLbraiG4pdCljtz3t37iQcrO657yttYg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\roy\\source\\repos\\WebApplication1\\WebApplication1\\WebApplication1.csproj",
+  "projectFilePath": "C:\\Users\\roy\\Git Projects\\ASP-Blogs\\WebApplication1\\WebApplication1.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\roy\\.nuget\\packages\\awssdk.core\\3.7.100.14\\awssdk.core.3.7.100.14.nupkg.sha512",
     "C:\\Users\\roy\\.nuget\\packages\\awssdk.securitytoken\\3.7.100.14\\awssdk.securitytoken.3.7.100.14.nupkg.sha512",

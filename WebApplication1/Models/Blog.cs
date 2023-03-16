@@ -6,7 +6,7 @@ namespace WebApplication1.Models
     {
         [BsonId]
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
-        public string Id { get; set; }
+        public string _id { get; set; }
 
         public string Title { get; set; }
         public DateTime CreatedDate { get; set; }

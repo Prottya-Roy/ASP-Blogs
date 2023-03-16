@@ -4,7 +4,7 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Services
 {
-    public class UserService : IUserService
+    public class UserService
     {
         private readonly IMongoCollection<User> _user;
         public UserService(IOptions<BlogDatabaseSettings> blogDatabaseSettings)
@@ -24,14 +24,21 @@ namespace WebApplication1.Services
             throw new NotImplementedException();
         }
 
-        public User RegisterUser(User user)
+        public async Task<User> RegisterUser(User user)
         {
-            throw new NotImplementedException();
+            await _user.InsertOneAsync(user);
+            return user;
         }
 
         public User UpdateUser(User user)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<User> GetUser(string Id)
+        {
+            User user = await _user.Find(user=> user._id==Id).FirstAsync();
+            return user;
         }
     }
 }

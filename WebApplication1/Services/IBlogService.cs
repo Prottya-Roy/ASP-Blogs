@@ -4,11 +4,11 @@ namespace WebApplication1.Services
 {
     public interface IBlogService
     {
-        List<Blog> GetBlogs();
-        Blog GetBlog(string Id);
-        Blog GetBlogByAuthor(string author);
-        void AddBlog(Blog blog);
-        Blog UpdateBlog(Blog blog);
+        Task<List<Blog>> GetBlogs();
+        Task GetBlog(string Id);
+        Task GetBlogByAuthor(string author);
+        Task<Blog> AddBlog(Blog blog);
+        Task UpdateBlog(Blog blog);
         void DeleteBlog(string Id);
 
     }
