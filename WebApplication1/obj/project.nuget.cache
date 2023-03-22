@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "q6pbbvVmZV9MuhoR1GM+c0q7H8HruQc3DnX+Z1tU3KAsWM40tA3JpLSLbraiG4pdCljtz3t37iQcrO657yttYg==",
+  "dgSpecHash": "5y6h4QVupB78xRq7r8TtMa3fQ5DhjFRGtqKJ1Nr+tJBBiVPsQAnJXjT6HrcYeeKKNYQWrn02kgfsMvg4iaAabA==",
   "success": true,
   "projectFilePath": "C:\\Users\\roy\\Git Projects\\ASP-Blogs\\WebApplication1\\WebApplication1.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\roy\\.nuget\\packages\\awssdk.core\\3.7.100.14\\awssdk.core.3.7.100.14.nupkg.sha512",
     "C:\\Users\\roy\\.nuget\\packages\\awssdk.securitytoken\\3.7.100.14\\awssdk.securitytoken.3.7.100.14.nupkg.sha512",
+    "C:\\Users\\roy\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\roy\\.nuget\\packages\\dnsclient\\1.6.1\\dnsclient.1.6.1.nupkg.sha512",
     "C:\\Users\\roy\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\roy\\.nuget\\packages\\microsoft.data.sqlite.core\\8.0.0-preview.1.23111.4\\microsoft.data.sqlite.core.8.0.0-preview.1.23111.4.nupkg.sha512",

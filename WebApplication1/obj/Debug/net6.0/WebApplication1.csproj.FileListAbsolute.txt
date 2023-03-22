@@ -161,3 +161,4 @@ C:\Users\roy\Git Projects\ASP-Blogs\WebApplication1\obj\Debug\net6.0\ref\WebAppl
 C:\Users\roy\Git Projects\ASP-Blogs\WebApplication1\obj\Debug\net6.0\WebApplication1.pdb
 C:\Users\roy\Git Projects\ASP-Blogs\WebApplication1\obj\Debug\net6.0\WebApplication1.genruntimeconfig.cache
 C:\Users\roy\Git Projects\ASP-Blogs\WebApplication1\obj\Debug\net6.0\WebApplication1.csproj.AssemblyReference.cache
+C:\Users\roy\Git Projects\ASP-Blogs\WebApplication1\bin\Debug\net6.0\BCrypt.Net-Next.dll

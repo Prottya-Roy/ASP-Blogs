@@ -37,19 +37,15 @@ namespace WebApplication1.Services
            return await _blogs.Find(_=> true).ToListAsync();
         }
 
-        public Task UpdateBlog(Blog blog)
+        public async Task<Blog> UpdateBlog( Blog newBlog)
         {
-            throw new NotImplementedException();
+            await _blogs.FindOneAndReplaceAsync(blog => blog._id == newBlog._id, newBlog);
+            return newBlog;
         }
         public async Task<Blog> GetBlogById(string Id)
         {
             Blog blog=  await _blogs.Find(blog => blog._id == Id).FirstAsync();
             return blog;
-        }
-
-        public async Task<Blog> UpdateBlog(string Id, Blog newBlog)
-        {
-            return null;
         }
     }
 }

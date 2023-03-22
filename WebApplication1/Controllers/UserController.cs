@@ -16,7 +16,7 @@ namespace WebApplication1.Controllers
 
 
         [HttpPost("RegisterUser")]
-        public async Task<User> RegisterUser(User user)
+        public async Task<string> RegisterUser(User user)
         {
             return await _userService.RegisterUser(user);
         }
@@ -37,6 +37,17 @@ namespace WebApplication1.Controllers
         public Task<User> UpdateUser(User user, string Id)
         {
             return null;
+        }
+        [HttpGet("UserNameAvailable/{userName}")]
+        public async Task<bool> UserNameAvailable(string userName)
+        {
+            return await _userService.UserNameAvailable(userName);
+        }
+
+        [HttpGet("EmailAvailable/{email}")]
+        public async Task<bool> EmailAvailable(string email)
+        {
+            return await _userService.UserNameAvailable(email);
         }
     }
 }

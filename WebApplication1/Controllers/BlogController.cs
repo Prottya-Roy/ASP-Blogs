@@ -46,10 +46,10 @@ namespace WebApplication1.Controllers
             return  _blogService.DeleteBlog(Id);
         }
 
-        [HttpPatch("UpdateBlog/{Id}")]
-        public async Task<Blog> UpdateBlog(string Id, Blog newBlog)
+        [HttpPatch("UpdateBlog")]
+        public async Task<Blog> UpdateBlog( Blog newBlog)
         {
-            return await _blogService.UpdateBlog(Id, newBlog);
+            return await _blogService.UpdateBlog( newBlog);
         }
     }
 }

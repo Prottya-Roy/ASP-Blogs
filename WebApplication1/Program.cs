@@ -34,7 +34,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.UseCors(corPolicityBuilder=> corPolicityBuilder.AllowAnyHeader().AllowAnyOrigin().WithOrigins("http://localhost:4200"));
+app.UseCors(corPolicityBuilder=> corPolicityBuilder.AllowAnyHeader().AllowAnyOrigin().WithOrigins("https://localhost:4200"));
 
 
 app.MapControllers();
