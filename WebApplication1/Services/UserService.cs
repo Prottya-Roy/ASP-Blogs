@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System.Security.Cryptography;
 using System.Text;
@@ -11,16 +12,13 @@ namespace WebApplication1.Services
     public class UserService
     {
         private readonly IMongoCollection<User> _user;
-        public UserService(IOptions<BlogDatabaseSettings> blogDatabaseSettings)
+        private readonly ITokenService _tokenService;
+        public UserService(IOptions<BlogDatabaseSettings> blogDatabaseSettings, ITokenService tokenService)
         {
             var mongoClient = new MongoClient(blogDatabaseSettings.Value.ConnectionString);
             var mongoDatabase = mongoClient.GetDatabase(blogDatabaseSettings.Value.DatabaseName);
             _user = mongoDatabase.GetCollection<User>(blogDatabaseSettings.Value.UserCollectionName);
-        }
-
-        public User LoginUser(User User)
-        {
-            throw new NotImplementedException();
+            _tokenService = tokenService;
         }
 
         public void Logout(User user)
@@ -28,26 +26,57 @@ namespace WebApplication1.Services
             throw new NotImplementedException();
         }
 
-        public async Task<string> RegisterUser(User user)
+        public async Task<UserToken> RegisterUser(User user)
         {
-            string response = null;
+            UserToken userToken = null;
+            
             if (user != null)
             {
-                var salt = 10;
                 User newUser = new User();
                 newUser.UserName = user.UserName;
                 newUser.Email = user.Email;
                 newUser.DOB = user.DOB;
                 newUser.Email = user.Email;
-                newUser.Password = BCrypt.Net.BCrypt.HashPassword(user.Password, salt);
+                newUser.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
                 await _user.InsertOneAsync(newUser);
-                response = newUser._id;
+                return new UserToken
+                {
+                    UserName = newUser.UserName,
+                    Token = _tokenService.CreateToken(newUser)
+                };
+               
             }
             else
             {
-                response= "No User Provided";
+                return userToken;
             }
-            return response;
+        }
+
+
+        public async Task<UserToken> LoginUser(User user)
+        {
+            UserToken response =null;
+            if (user != null)
+            {
+                User userReturn = await _user.Find(userFind => userFind.UserName == user.UserName).FirstAsync();
+                bool passwordCheck = BCrypt.Net.BCrypt.Verify(user.Password, userReturn.Password);
+                if (passwordCheck)
+                {
+                    return new UserToken
+                    {
+                        UserName = userReturn.UserName,
+                        Token = _tokenService.CreateToken(userReturn)
+                    };
+                }
+                else
+                {
+                    return response;
+                }
+            }
+            else
+            {
+                return response;
+            }
             
         }
 

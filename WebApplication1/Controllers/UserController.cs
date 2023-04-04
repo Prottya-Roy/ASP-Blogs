@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 using WebApplication1.Models;
 using WebApplication1.Services;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplication1.Controllers
 {
@@ -9,6 +13,7 @@ namespace WebApplication1.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserService _userService;
+
         public UserController(UserService userService)
         {
             _userService = userService;
@@ -16,32 +21,75 @@ namespace WebApplication1.Controllers
 
 
         [HttpPost("RegisterUser")]
-        public async Task<string> RegisterUser(User user)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(User))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> RegisterUser(User user)
         {
-            return await _userService.RegisterUser(user);
+            UserToken userResult = await _userService.RegisterUser(user);
+            if (userResult != null)
+            {
+              return Ok(userResult);
+            }
+            else { return BadRequest(); }
         }
 
         [HttpPost("LoginUser")]
-        public Task<IActionResult> LoginUser(User user)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> LoginUser(User user)
         {
-            return null;
+            UserToken userResult = await _userService.LoginUser(user);
+            if (userResult!= null)
+            {
+                return Ok(userResult);
+            }
+            else { return BadRequest(); }
+            
         }
 
+        [Authorize]
         [HttpGet("GetUser/{Id}")]
-        public async Task<User> GetUser(string Id)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(User))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetUser(string Id)
         {
-            return await _userService.GetUser(Id);
+            User user= await _userService.GetUser(Id);
+            if(user != null)
+            {
+                return Ok(user);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+
         }
 
+        [Authorize]
         [HttpPatch("UpdateUser/{Id}")]
         public Task<User> UpdateUser(User user, string Id)
         {
             return null;
         }
+
+
         [HttpGet("UserNameAvailable/{userName}")]
-        public async Task<bool> UserNameAvailable(string userName)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UserNameAvailable(string userName)
         {
-            return await _userService.UserNameAvailable(userName);
+            bool check =  await _userService.UserNameAvailable(userName);
+            if( check)
+            {
+                return Ok(check);
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         [HttpGet("EmailAvailable/{email}")]

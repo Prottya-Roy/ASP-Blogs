@@ -2,15 +2,17 @@
 using WebApplication1.Services;
 using WebApplication1.Models;
 using MongoDB.Driver;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplication1.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class BlogController : ControllerBase
     {
-        private readonly BlogService _blogService;
-        public BlogController(BlogService blogService)
+        private readonly IBlogService _blogService;
+        public BlogController(IBlogService blogService)
         {
             _blogService = blogService;
         }
