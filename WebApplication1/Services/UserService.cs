@@ -41,7 +41,7 @@ namespace WebApplication1.Services
                 await _user.InsertOneAsync(newUser);
                 return new UserToken
                 {
-                    UserName = newUser.UserName,
+                    _id = newUser._id,
                     Token = _tokenService.CreateToken(newUser)
                 };
                
@@ -64,7 +64,7 @@ namespace WebApplication1.Services
                 {
                     return new UserToken
                     {
-                        UserName = userReturn.UserName,
+                        _id = userReturn._id,
                         Token = _tokenService.CreateToken(userReturn)
                     };
                 }
