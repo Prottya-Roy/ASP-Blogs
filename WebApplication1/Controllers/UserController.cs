@@ -82,7 +82,7 @@ namespace WebApplication1.Controllers
         public async Task<IActionResult> UserNameAvailable(string userName)
         {
             bool check =  await _userService.UserNameAvailable(userName);
-            if( check)
+            if(check)
             {
                 return Ok(check);
             }

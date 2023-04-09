@@ -93,14 +93,17 @@ namespace WebApplication1.Services
         public async Task<bool> UserNameAvailable(string userName)
         {
             bool flag=true;
-            User user = await _user.Find(user=>user.UserName== userName).FirstAsync();
-            if(user!=null)
+            //var user = await _user.FindAsync(user => user.UserName == userName).FirstOrDefault;
+            try
             {
-                flag= false;
-            }
-            else if(user==null)
+                User user = await _user.Find(user => user.UserName == userName).FirstAsync();
+                if (user != null)
+                {
+                    flag = false;
+                }
+            }catch(Exception ex)
             {
-                flag= true;
+                return true;
             }
             return flag;
         }
@@ -108,14 +111,16 @@ namespace WebApplication1.Services
         public async Task<bool> EmailAvailable(string email)
         {
             bool flag = true;
-            User user = await _user.Find(user => user.Email == email).FirstAsync();
-            if (user != null)
+            try
             {
-                flag = false;
-            }
-            else if (user == null)
+                User user = await _user.Find(user => user.Email == email).FirstAsync();
+                if (user != null)
+                {
+                    flag = false;
+                }
+            }catch (Exception ex)
             {
-                flag = true;
+                return true;
             }
             return flag;
         }
