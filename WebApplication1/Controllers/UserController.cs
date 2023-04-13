@@ -35,17 +35,18 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost("LoginUser")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserToken))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         public async Task<IActionResult> LoginUser(User user)
         {
             UserToken userResult = await _userService.LoginUser(user);
-            if (userResult!= null)
+            if (userResult== null)
             {
-                return Ok(userResult);
+                return BadRequest("Invalid Username");
             }
-            else { return BadRequest(); }
+            else if(userResult.Token== null) { return NotFound(userResult._id); }
+            else { return Ok(userResult); }
             
         }
 
@@ -78,24 +79,34 @@ namespace WebApplication1.Controllers
 
         [HttpGet("UserNameAvailable/{userName}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type=typeof(string))]
         public async Task<IActionResult> UserNameAvailable(string userName)
         {
-            bool check =  await _userService.UserNameAvailable(userName);
-            if(check)
+            string check =  await _userService.UserNameAvailable(userName);
+            if(check== "Username available")
             {
-                return Ok(check);
+                return Ok(true);
             }
             else
             {
-                return BadRequest();
+                return BadRequest(check);
             }
         }
 
         [HttpGet("EmailAvailable/{email}")]
-        public async Task<bool> EmailAvailable(string email)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+        public async Task<IActionResult> EmailAvailable(string email)
         {
-            return await _userService.UserNameAvailable(email);
+            string check= await _userService.EmailAvailable(email);
+            if (check == "Email available")
+            {
+                return Ok(true);
+            }
+            else
+            {
+                return BadRequest(check);
+            }
         }
     }
 }

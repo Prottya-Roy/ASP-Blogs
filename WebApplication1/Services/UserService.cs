@@ -59,25 +59,31 @@ namespace WebApplication1.Services
             if (user != null)
             {
                 User userReturn = await _user.Find(userFind => userFind.UserName == user.UserName).FirstAsync();
-                bool passwordCheck = BCrypt.Net.BCrypt.Verify(user.Password, userReturn.Password);
-                if (passwordCheck)
+                if (userReturn == null)
                 {
-                    return new UserToken
-                    {
-                        _id = userReturn._id,
-                        Token = _tokenService.CreateToken(userReturn)
-                    };
+                        response._id = "Invalid Username";
                 }
                 else
                 {
-                    return response;
+                    bool passwordCheck = BCrypt.Net.BCrypt.Verify(user.Password, userReturn.Password);
+                    if (passwordCheck)
+                    {
+                        return new UserToken
+                        {
+                            _id = userReturn._id,
+                            Token = _tokenService.CreateToken(userReturn)
+                        };
+                    }
+                    else
+                    {
+                        return new UserToken
+                        {
+                            _id = "Invalid Pasword"
+                        };
+                    }
                 }
             }
-            else
-            {
                 return response;
-            }
-            
         }
 
         public User UpdateUser(User user)
@@ -90,37 +96,37 @@ namespace WebApplication1.Services
             User user = await _user.Find(user=> user._id==Id).FirstAsync();
             return user;
         }
-        public async Task<bool> UserNameAvailable(string userName)
+        public async Task<string> UserNameAvailable(string userName)
         {
-            bool flag=true;
+            string flag=null;
             //var user = await _user.FindAsync(user => user.UserName == userName).FirstOrDefault;
             try
             {
                 User user = await _user.Find(user => user.UserName == userName).FirstAsync();
                 if (user != null)
                 {
-                    flag = false;
+                    flag = "Username already in use";
                 }
             }catch(Exception ex)
             {
-                return true;
+                return "Username available";
             }
             return flag;
         }
 
-        public async Task<bool> EmailAvailable(string email)
+        public async Task<string> EmailAvailable(string email)
         {
-            bool flag = true;
+            string flag = null;
             try
             {
                 User user = await _user.Find(user => user.Email == email).FirstAsync();
                 if (user != null)
                 {
-                    flag = false;
+                    flag = "Email already in use"; 
                 }
             }catch (Exception ex)
             {
-                return true;
+                return "Email available";
             }
             return flag;
         }
